@@ -1,0 +1,9 @@
+.red {
+    color: black;
+    border: 1px solid blue;
+}
+
+.green {
+    color: gold;
+    border: 1px solid silver;
+}
