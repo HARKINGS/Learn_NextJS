@@ -1,13 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import styles from "./page.module.css";
 import Link from "next/link";
 
 import appStyle from "@/styles/app.module.css";
 import harkinsStyle from "@/styles/harkins.module.css";
 import AppTable from "@/components/app.table";
-import { useEffect } from "react";
 import useSWR from "swr";
 
 export default function Home() {
@@ -54,7 +51,7 @@ export default function Home() {
                 </li>
             </ul>
 
-            <AppTable blogs={data} />
+            <AppTable blogs={data?.sort((a: any, b: any) => b.id - a.id)} />
         </div>
     );
 }

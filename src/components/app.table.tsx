@@ -37,7 +37,7 @@ function AppTable(props: IProps) {
                 <tbody>
                     {blogs?.map((blog, index) => (
                         <tr key={blog.id}>
-                            <td>{index + 1}</td>
+                            <td>{blog.id}</td>
                             <td>{blog.title}</td>
                             <td>{blog.author}</td>
                             {/* <td>{blog.content}</td> */}
