@@ -6,43 +6,30 @@ import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
-import useSWR from "swr";
 
 interface IProps {
     showModal: boolean;
-    setShowModal: (show: boolean) => void;
-    selectedBlogId: number | null;
+    setShowModal: (value: boolean) => void;
+    blog: IBlog | null;
+    setBlog: (value: IBlog | null) => void;
 }
 
 function UpdateModal(props: IProps) {
-    const { showModal, setShowModal, selectedBlogId } = props;
+    const { showModal, setShowModal, blog, setBlog } = props;
 
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
-    const { data, error, isLoading } = useSWR(
-        "http://localhost:8000/blogs/" + selectedBlogId,
-        fetcher,
-        {
-            revalidateIfStale: false,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false,
-        },
-    );
-
+    const [id, setId] = useState<number | null>(null);
     const [title, setTitle] = useState<string>("");
     const [author, setAuthor] = useState<string>("");
     const [content, setContent] = useState<string>("");
 
     useEffect(() => {
-        if (data) {
-            setTitle(data.title);
-            setAuthor(data.author);
-            setContent(data.content);
+        if (blog) {
+            setId(blog.id);
+            setTitle(blog.title);
+            setAuthor(blog.author);
+            setContent(blog.content);
         }
-    }, [data]);
-
-    if (error) return <div>failed to load</div>;
-    if (isLoading || !data) return <div>loading...</div>;
+    }, [blog]);
 
     const handleUpdate = () => {
         if (!title || !author || !content) {
@@ -50,7 +37,7 @@ function UpdateModal(props: IProps) {
             return;
         }
 
-        fetch(`http://localhost:8000/blogs/${selectedBlogId}`, {
+        fetch(`http://localhost:8000/blogs/${id}`, {
             method: "PUT",
             headers: {
                 Accept: "application/json",
@@ -71,6 +58,10 @@ function UpdateModal(props: IProps) {
     };
 
     const handleClose = () => {
+        setAuthor("");
+        setTitle("");
+        setContent("");
+        setBlog(null);
         setShowModal(false);
     };
 
