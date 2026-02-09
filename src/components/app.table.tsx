@@ -2,8 +2,9 @@
 
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import CreateModal from "./create.modal";
 import { useState } from "react";
+import UpdateModal from "./update.modal";
+import CreateModal from "./create.modal";
 
 interface IProps {
     blogs: IBlog[];
@@ -12,6 +13,7 @@ interface IProps {
 function AppTable(props: IProps) {
     const { blogs } = props;
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [selectedBlogId, setSelectedBlogId] = useState<number | null>(null);
 
     return (
         <>
@@ -20,7 +22,13 @@ function AppTable(props: IProps) {
                 style={{ display: "flex", justifyContent: "space-between" }}
             >
                 <h3>Table Blogs</h3>
-                <Button variant="success" onClick={() => setShowModal(true)}>
+                <Button
+                    variant="success"
+                    onClick={() => {
+                        setSelectedBlogId(null);
+                        setShowModal(true);
+                    }}
+                >
                     Add New Blog
                 </Button>
             </div>
@@ -43,7 +51,14 @@ function AppTable(props: IProps) {
                             {/* <td>{blog.content}</td> */}
                             <td>
                                 <Button variant="info">View</Button>
-                                <Button variant="primary" className="mx-3">
+                                <Button
+                                    variant="primary"
+                                    className="mx-3"
+                                    onClick={() => {
+                                        setSelectedBlogId(blog.id);
+                                        setShowModal(true);
+                                    }}
+                                >
                                     Edit
                                 </Button>
                                 <Button variant="danger">Delete</Button>
@@ -52,7 +67,18 @@ function AppTable(props: IProps) {
                     ))}
                 </tbody>
             </Table>
-            <CreateModal showModal={showModal} setShowModal={setShowModal} />
+            {selectedBlogId === null ? (
+                <CreateModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                />
+            ) : (
+                <UpdateModal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    selectedBlogId={selectedBlogId}
+                />
+            )}
         </>
     );
 }
