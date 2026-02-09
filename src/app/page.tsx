@@ -23,6 +23,9 @@ export default function Home() {
         },
     );
 
+    if (error) return <div>failed to load</div>;
+    if (isLoading || !data) return <div>loading...</div>;
+
     console.log(">>> check res:", data);
 
     // useEffect(() => {
@@ -51,7 +54,7 @@ export default function Home() {
                 </li>
             </ul>
 
-            <AppTable />
+            <AppTable blogs={data} />
         </div>
     );
 }
