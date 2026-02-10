@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import UpdateModal from "./update.modal";
 import CreateModal from "./create.modal";
+import ViewDetailBlog from "@/app/blogs/[id]/page";
 import Link from "next/link";
 
 interface IProps {
@@ -92,7 +93,6 @@ function AppTable(props: IProps) {
                     setBlog={setBlog}
                 />
             )}
-            ;
         </>
     );
 }
