@@ -1,13 +1,14 @@
 "use client";
 import Link from "next/link";
 import { Button, Card } from "react-bootstrap";
-import useSWR from "swr";
-import { useParams } from "next/navigation";
+import useSWR, { Fetcher } from "swr";
+// import { useParams } from "next/navigation";
 
-const ViewDetailBlog = () => {
-    const params = useParams();
+const ViewDetailBlog = ({ params }: { params: { id: string } }) => {
+    // const params = useParams(); // dùng useParams khi không truyền params từ layout cha
 
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+    const fetcher: Fetcher<IBlog, string> = (url: string) =>
+        fetch(url).then((res) => res.json());
 
     const { data, error, isLoading } = useSWR(
         params.id ? `http://localhost:8000/blogs/${params.id}` : null,
@@ -34,10 +35,10 @@ const ViewDetailBlog = () => {
             </Button>
 
             <Card>
-                <Card.Header as="h5">{data.author}</Card.Header>
+                <Card.Header as="h5">Author: {data?.author}</Card.Header>
                 <Card.Body>
-                    <Card.Title>{data.title}</Card.Title>
-                    <Card.Text>{data.content}</Card.Text>
+                    <Card.Title>Title: {data?.title}</Card.Title>
+                    <Card.Text>Content: {data?.content}</Card.Text>
                     <Button variant="primary">
                         <Link
                             href="/blogs"
