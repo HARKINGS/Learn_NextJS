@@ -23,8 +23,8 @@ function AppHeader() {
                         <Link href="/youtube" className="nav-link">
                             YouTube
                         </Link>
-                        <Link href="/tiktok" className="nav-link">
-                            TikTok
+                        <Link href="/blogs" className="nav-link">
+                            Blogs
                         </Link>
                         {/* chac la Link + nav-link = Nav.Link */}
                         <Nav.Link href="/twitter">Twitter</Nav.Link>
