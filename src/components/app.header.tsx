@@ -27,7 +27,7 @@ function AppHeader() {
                             Blogs
                         </Link>
                         {/* chac la Link + nav-link = Nav.Link */}
-                        <Nav.Link href="/twitter">Twitter</Nav.Link>
+                        {/* <Nav.Link href="/twitter">Twitter</Nav.Link> */}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -7,6 +7,8 @@ import UpdateModal from "./update.modal";
 import CreateModal from "./create.modal";
 import Link from "next/link";
 import DeletePopup from "./delete.popup";
+import { toast } from "react-toastify";
+import { mutate } from "swr";
 
 interface IProps {
     blogs: IBlog[];
@@ -17,7 +19,24 @@ function AppTable(props: IProps) {
 
     const [blog, setBlog] = useState<IBlog | null>(null);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [id, setId] = useState<string>("");
+    // const [id, setId] = useState<string>("");
+
+    const handleDelete = (id: string) => {
+        if (confirm("Are you sure you want to delete this blog?")) {
+            fetch(`http://localhost:8000/blogs/${id}`, {
+                method: "DELETE",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res) toast.success("Blog deleted successfully!");
+                    mutate("http://localhost:8000/blogs");
+                });
+        }
+    };
 
     return (
         <>
@@ -78,7 +97,8 @@ function AppTable(props: IProps) {
                                 <Button
                                     variant="danger"
                                     onClick={() => {
-                                        setId(item.id.toString());
+                                        // setId(item.id.toString());
+                                        handleDelete(item.id.toString());
                                     }}
                                 >
                                     Delete
@@ -102,7 +122,7 @@ function AppTable(props: IProps) {
                 />
             )}
 
-            <DeletePopup id={id} setId={setId} />
+            {/* <DeletePopup id={id} setId={setId} /> */}
         </>
     );
 }
