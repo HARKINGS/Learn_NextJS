@@ -37,7 +37,7 @@ function CreateModal(props: IProps) {
             .then((res) => {
                 if (res) toast.success("Blog created successfully!");
                 handleClose();
-                mutate("http://localhost:8000/blogs");
+                mutate("http://localhost:8000/blogs"); // revalidate data on the blogs list page
             });
 
         // toast.success("Blog created successfully!");

@@ -6,6 +6,7 @@ import { useState } from "react";
 import UpdateModal from "./update.modal";
 import CreateModal from "./create.modal";
 import Link from "next/link";
+import DeletePopup from "./delete.popup";
 
 interface IProps {
     blogs: IBlog[];
@@ -16,6 +17,7 @@ function AppTable(props: IProps) {
 
     const [blog, setBlog] = useState<IBlog | null>(null);
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [id, setId] = useState<string>("");
 
     return (
         <>
@@ -73,7 +75,14 @@ function AppTable(props: IProps) {
                                 >
                                     Edit
                                 </Button>
-                                <Button variant="danger">Delete</Button>
+                                <Button
+                                    variant="danger"
+                                    onClick={() => {
+                                        setId(item.id.toString());
+                                    }}
+                                >
+                                    Delete
+                                </Button>
                             </td>
                         </tr>
                     ))}
@@ -92,6 +101,8 @@ function AppTable(props: IProps) {
                     setBlog={setBlog}
                 />
             )}
+
+            <DeletePopup id={id} setId={setId} />
         </>
     );
 }
